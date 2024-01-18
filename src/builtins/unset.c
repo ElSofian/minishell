@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:38:11 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 03:54:28 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:14:17 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static int	remake_env(t_minishell *minishell, int pos)
 	j = 0;
 	new_env = (char **)malloc(sizeof(char *) * ft_tabsize(minishell->env) + 1);
 	if (!new_env)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	while (minishell->env[++i])
 	{
 		if (i != pos)
 		{
 			new_env[j] = ft_strdup(minishell->env[i]);
 			if (!new_env[j])
-				return (get_error(minishell));
+				return (get_error(minishell, NULL));
 			j++;
 		}
 	}
@@ -47,7 +47,7 @@ static int	remake_env(t_minishell *minishell, int pos)
 	ft_freetab(minishell->env);
 	minishell->env = ft_tabdup(new_env);
 	if (!minishell->env)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	return (ft_freetab(new_env), 0);
 }
 

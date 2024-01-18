@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:00:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 03:54:57 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:13:34 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_env(t_minishell *minishell)
 
 	i = 0;
 	if (!minishell->env)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	while (minishell->env[i])
 	{
 		ft_printf("%s\n", minishell->env[i]);

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:38:38 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:14:43 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:13:56 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check(t_minishell *minishell, char *arg)
 		i++;
 	var_name = (char *)malloc(sizeof(char) * (i + 1));
 	if (!var_name)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	i = 0;
 	while (arg[i] && arg[i] != '=')
 	{
@@ -40,7 +40,7 @@ static int	check(t_minishell *minishell, char *arg)
 		i++;
 	}
 	if (!arg[i] || arg[0] == '=' || arg[ft_strlen(arg) - 2] == '=')
-		return (free(var_name), get_error(minishell));
+		return (free(var_name), get_error(minishell, NULL));
 	i = 0;
 	while (minishell->env[i])
 	{
@@ -79,21 +79,21 @@ int	ft_export(t_minishell *minishell, char *arg)
 	new_env = (char **)malloc(sizeof(char *)
 			* (ft_tabsize(minishell->env) + 2));
 	if (!new_env)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	while (minishell->env[++i])
 	{
 		new_env[i] = ft_strdup(minishell->env[i]);
 		if (!new_env[i])
-			return (get_error(minishell));
+			return (get_error(minishell, NULL));
 	}
 	new_env[i] = ft_strdup_without_n(arg);
 	if (!new_env[i])
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	new_env[i + 1] = NULL;
 	ft_freetab(minishell->env);
 	minishell->env = ft_tabdup(new_env);
 	if (!minishell->env)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	ft_freetab(new_env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:26:56 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:23:40 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:13:28 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_echo(t_minishell *minishell, char *cmd)
 		i++;
 	str = get_str(cmd + i, display_line, quoted);
 	if (!str)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	ft_printf("%s", str);
 	free(str);
 	return (0);

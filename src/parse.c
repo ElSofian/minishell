@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:08:59 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:56:41 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:11:58 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	builtins(t_minishell *minishell, char *cmd)
 		ret = ft_env(minishell);
 	else if (ft_strncmp(cmd, "exit", 4) == 0)
 		ret = ft_exit(minishell);
+	else if (ft_strncmp(cmd, "setcolor", 8) == 0)
+		ret = ft_setcolor(minishell, cmd + 9);
 	else
 		ret = NOT_BUILTIN;
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:29:50 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/17 21:15:14 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:14:03 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_pwd(t_minishell *minishell)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	ft_printf("%s\n", pwd);
 	free(pwd);
 	return (0);

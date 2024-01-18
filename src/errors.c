@@ -6,15 +6,23 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:32:07 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 04:22:45 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:13:03 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_error(t_minishell *minishell)
+int	get_error(t_minishell *minishell, char *error)
 {
-	ft_printf("Error: %s\n", strerror(errno));
-	minishell->ret = errno;
+	if (error)
+	{
+		ft_printf("Error: %s\n", error);
+		minishell->ret = 1;
+	}
+	else
+	{
+		ft_printf("Error: %s\n", strerror(errno));
+		minishell->ret = errno;
+	}
 	return (1);
 }

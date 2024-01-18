@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:55:11 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:14:38 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define PURPLE "\033[1;35m"
 # define PINK "\033[1;38;5;200m"
 
-# define NOT_BUILTIN 6000000
+# define NOT_BUILTIN 64092875
 
 typedef struct s_history
 {
@@ -47,6 +47,7 @@ typedef struct s_minishell
 	int			ac;
 	int			fds[2];
 	bool		exit;
+	char		*color;
 	char		*line;
 	char		*path;
 	char		**env;
@@ -55,7 +56,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	free_all(t_minishell *minishell);
-int		get_error(t_minishell *minishell);
+int		get_error(t_minishell *minishell, char *error);
 void	initialize(t_minishell *minishell, int ac, char **av, char **env);
 void	parse(t_minishell *minishell);
 
@@ -70,5 +71,7 @@ int		ft_exit(t_minishell *minishell);
 int		ft_export(t_minishell *minishell, char *arg);
 int		ft_pwd(t_minishell *minishell);
 int		ft_unset(t_minishell *minishell, char *arg);
+// Others
+int		ft_setcolor(t_minishell *minishell, char *color);
 
 #endif

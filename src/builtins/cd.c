@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:41:02 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:53:30 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:13:22 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_cd(t_minishell *minishell)
 	else
 		target = ft_strdup(minishell->line);
 	if (chdir(target) == -1)
-		return (get_error(minishell));
+		return (get_error(minishell, NULL));
 	pwd = getcwd(NULL, 0);
 	while (minishell->env[i])
 	{
