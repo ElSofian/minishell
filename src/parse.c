@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:08:59 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 00:14:12 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:42:57 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	builtins(t_minishell *minishell, char *cmd)
 
 	ret = 0;
 	if (ft_strncmp(cmd, "echo", 4) == 0)
-		ret = ft_echo(cmd);
+		ret = ft_echo(minishell, cmd);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
 		ret = ft_cd(minishell);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
@@ -32,7 +32,7 @@ static int	builtins(t_minishell *minishell, char *cmd)
 	else if (ft_strncmp(cmd, "exit", 4) == 0)
 		ret = ft_exit(minishell);
 	else
-		ret = -1;
+		ret = NOT_BUILTIN;
 	return (ret);
 }
 
@@ -44,11 +44,8 @@ void	parse(t_minishell *minishell)
 	if (minishell->line[0] == '\0')
 		return ;
 	minishell->ret = builtins(minishell, minishell->line);
-	if (minishell->ret == -1)
+	if (minishell->ret == NOT_BUILTIN)
 	{
-		minishell->ret = 0;
-		exec_cmd(minishell);
-		if (minishell->ret == 1)
-			ft_printf("Command not found: %s\n", minishell->line);
+		minishell->ret = exec_cmd(minishell);
 	}
 }

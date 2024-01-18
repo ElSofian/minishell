@@ -6,27 +6,27 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:03:26 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/17 21:33:27 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 03:37:24 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_path(t_minishell *minishell)
-{
-	int		i;
-	char	*path;
+// static char	*get_path(t_minishell *minishell)
+// {
+// 	int		i;
+// 	char	*path;
 
-	i = 0;
-	path = NULL;
-	while (minishell->env[i])
-	{
-		if (ft_strncmp(minishell->env[i], "PATH=", 5) == 0)
-			path = ft_strdup(minishell->env[i] + 5);
-		i++;
-	}
-	return (path);
-}
+// 	i = 0;
+// 	path = NULL;
+// 	while (minishell->env[i])
+// 	{
+// 		if (ft_strncmp(minishell->env[i], "PATH=", 5) == 0)
+// 			path = ft_strdup(minishell->env[i] + 5);
+// 		i++;
+// 	}
+// 	return (path);
+// }
 
 void	initialize(t_minishell *minishell, int ac, char **av, char **env)
 {
@@ -39,5 +39,5 @@ void	initialize(t_minishell *minishell, int ac, char **av, char **env)
 	minishell->line = NULL;
 	minishell->av = ft_tabdup(av);
 	minishell->env = ft_tabdup(env);
-	minishell->path = get_path(minishell);
+	minishell->path = getcwd(NULL, 0);
 }

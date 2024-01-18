@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:14:39 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 01:42:36 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:43:53 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	display(t_minishell *minishell)
 
 int	main(int ac, char **av, char **env)
 {
+	int			len;
 	t_minishell	minishell;
 
 	initialize(&minishell, ac, av, env);
@@ -34,6 +35,11 @@ int	main(int ac, char **av, char **env)
 	{
 		display(&minishell);
 		minishell.line = get_next_line(minishell.fds[0]);
+		if (minishell.line)
+		{
+			len = ft_strlen(minishell.line);
+			minishell.line[len - 1] = '\0';
+		}
 		parse(&minishell);
 		free(minishell.line);
 	}

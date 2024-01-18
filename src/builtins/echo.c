@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:26:56 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 03:33:39 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:16:57 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	check(char *cmd, int *quoted, bool *display_line)
 	else if (cmd[i + 1] == '-' && cmd[i + 2] == 'n')
 		*display_line = false;
 	if ((cmd[i + 1] == '"' || cmd[i + 1] == '\'')
-		&& cmd[ft_strlen(cmd) - 2] != cmd[i + 1])
+		&& cmd[ft_strlen(cmd) - 1] != cmd[i + 1])
 		return (1);
 	else
 	{
@@ -38,10 +38,13 @@ static int	check(char *cmd, int *quoted, bool *display_line)
 
 static char	*get_str(char *cmd, bool display_line, int quoted)
 {
-	size_t	j;
+	int		j;
 	char	*str;
 
-	str = (char *)malloc(sizeof(char) * ft_strlen(cmd) + 1);
+	if (display_line)
+		str = (char *)malloc(sizeof(char) * ft_strlen(cmd) + 2);
+	else
+		str = (char *)malloc(sizeof(char) * ft_strlen(cmd) + 1);
 	if (!str)
 		return (NULL);
 	j = 0;
@@ -54,17 +57,13 @@ static char	*get_str(char *cmd, bool display_line, int quoted)
 		str[j] = cmd[j];
 		j++;
 	}
-	if (j == ft_strlen(cmd) - 2 && display_line && quoted)
-	{
-		str[j] = '\n';
-		str[j + 1] = '\0';
-	}
-	else
-		str[j] = '\0';
+	if (display_line)
+		str[j++] = '\n';
+	str[j] = '\0';
 	return (str);
 }
 
-int	ft_echo(char *cmd)
+int	ft_echo(t_minishell *minishell, char *cmd)
 {
 	int		i;
 	int		quoted;
@@ -85,7 +84,7 @@ int	ft_echo(char *cmd)
 		i++;
 	str = get_str(cmd + i, display_line, quoted);
 	if (!str)
-		return (1);
+		return (get_error(minishell));
 	ft_printf("%s", str);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 01:42:23 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:42:20 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define YELLOW "\033[1;33m"
 # define PURPLE "\033[1;35m"
 # define PINK "\033[1;38;5;200m"
+
+# define NOT_BUILTIN 6000000
 
 typedef struct s_history
 {
@@ -59,7 +61,7 @@ int		exec_cmd(t_minishell *minishell);
 
 // Builtins
 int		ft_cd(t_minishell *minishell);
-int		ft_echo(char *cmd);
+int		ft_echo(t_minishell *minishell, char *cmd);
 int		ft_env(t_minishell *minishell);
 int		ft_exit(t_minishell *minishell);
 int		ft_export(t_minishell *minishell, char *arg);
