@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:14:39 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:58:47 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:39:05 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ static void	display(t_minishell *minishell)
 
 	pwd = getcwd(NULL, 0);
 	tab = ft_split(pwd, '/');
+	if (!tab || !tab[0])
+	{
+		ft_freetab(tab);
+		tab = NULL;
+		tab = (char **)malloc(sizeof(char *) * 2);
+		tab[0] = ft_strdup("/");
+		tab[1] = NULL;
+	}
 	if (minishell->ret == 0)
 		ft_printf(GREEN"・%s %s$> "RESET, minishell->color,
 			tab[ft_tabsize(tab) - 1]);

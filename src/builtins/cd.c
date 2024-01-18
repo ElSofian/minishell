@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:41:02 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:54:08 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:55:58 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	ft_cd(t_minishell *minishell)
 		{
 			free(minishell->env[i]);
 			minishell->env[i] = ft_strjoin("PWD=", pwd);
+			free(minishell->path);
+			minishell->path = ft_strdup(pwd);
 			return (free(pwd), free(target), 0);
 		}
 		i++;

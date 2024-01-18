@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:58:38 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:12:17 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int			ft_setcolor(t_minishell *minishell, char *color);
 
 // Utils
 // Lists
+void		lstclear(t_history **lst, void (*del)(void *));
+void		lstdelone(t_history *lst, void (*del)(void *));
 void		lstadd_back(t_history **lst, t_history *new);
 t_history	*lstlast(t_history *lst);
 t_history	*lstnew(char *cmd);
