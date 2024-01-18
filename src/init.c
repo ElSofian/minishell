@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:03:26 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:10:34 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:27:56 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ void	initialize(t_minishell *minishell, int ac, char **av, char **env)
 	minishell->av = ft_tabdup(av);
 	minishell->env = ft_tabdup(env);
 	minishell->path = getcwd(NULL, 0);
+	minishell->history = (t_history *)malloc(sizeof(t_history));
 }

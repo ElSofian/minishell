@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 06:07:14 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:26:54 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:59:34 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_setcolor(t_minishell *minishell, char *color)
 	else if (ft_strcmp(color, "yellow") == 0 || ft_strcmp(color, "YELLOW") == 0)
 		minishell->color = ft_strdup(YELLOW);
 	else if (ft_strcmp(color, "blue") == 0 || ft_strcmp(color, "BLUE") == 0
-	|| ft_strcmp(color, "reset") == 0 || ft_strcmp(color, "RESET") == 0)
+		|| ft_strcmp(color, "reset") == 0 || ft_strcmp(color, "RESET") == 0)
 		minishell->color = ft_strdup(BLUE);
 	else if (ft_strcmp(color, "purple") == 0 || ft_strcmp(color, "PURPLE") == 0)
 		minishell->color = ft_strdup(PURPLE);

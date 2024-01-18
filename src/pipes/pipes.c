@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:39:01 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:14:28 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:56:29 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,24 @@ static char	*get_cmd_path(char *cmd, char **env)
 	return (ft_freetab(dirs), NULL);
 }
 
+static int	run_cmd(t_minishell *minishell)
+{
+	char	**cmd;
+	char	*cmd_path;
+
+	cmd = ft_split(minishell->line, ' ');
+	cmd_path = get_cmd_path(cmd[0], minishell->env);
+	if (execve(cmd_path, cmd, minishell->env) == -1)
+		return (ft_freetab(cmd), free(cmd_path),
+			get_error(minishell, NULL));
+	ft_freetab(cmd);
+	free(cmd_path);
+	return (0);
+}
+
 int	exec_cmd(t_minishell *minishell)
 {
 	int		fd[2];
-	char	**cmd;
-	char	*cmd_path;
 	pid_t	pid;
 
 	if (pipe(fd) < 0)
@@ -70,12 +83,7 @@ int	exec_cmd(t_minishell *minishell)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		cmd = ft_split(minishell->line, ' ');
-		cmd_path = get_cmd_path(cmd[0], minishell->env);
-		if (execve(cmd_path, cmd, minishell->env) == -1)
-			return (ft_freetab(cmd), free(cmd_path), get_error(minishell, NULL));
-		ft_freetab(cmd);
-		free(cmd_path);
+		run_cmd(minishell);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[1]);

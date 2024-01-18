@@ -6,13 +6,13 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:41:02 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:13:22 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:54:08 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_home(t_minishell *minishell)
+static char	*get_home(t_minishell *minishell)
 {
 	int	i;
 
@@ -26,6 +26,25 @@ char	*get_home(t_minishell *minishell)
 	return (NULL);
 }
 
+static char	*set_target(t_minishell *minishell)
+{
+	char	*target;
+
+	if (ft_strncmp(minishell->line, "cd ~", 4) == 0
+		|| (ft_strncmp(minishell->line, "cd", 2) == 0
+			&& ft_strlen(minishell->line) == 2))
+		target = get_home(minishell);
+	else if (ft_strncmp(minishell->line, "..", 2) == 0)
+		target = ft_strdup(minishell->line);
+	else if (ft_strncmp(minishell->line, "cd", 2) == 0)
+		target = ft_strdup(minishell->line + 3);
+	else if (ft_strncmp(minishell->line, ".", 1) == 0)
+		return (NULL);
+	else
+		target = ft_strdup(minishell->line);
+	return (target);
+}
+
 int	ft_cd(t_minishell *minishell)
 {
 	int		i;
@@ -33,18 +52,9 @@ int	ft_cd(t_minishell *minishell)
 	char	*pwd;
 
 	i = 0;
-	if (ft_strncmp(minishell->line, "cd ~", 4) == 0
-	|| (ft_strncmp(minishell->line, "cd", 2) == 0
-		&& ft_strlen(minishell->line) == 2))
-		target = get_home(minishell);
-	else if (ft_strncmp(minishell->line, "..", 2) == 0)
-		target = ft_strdup(minishell->line);
-	else if (ft_strncmp(minishell->line, "cd", 2) == 0)
-		target = ft_strdup(minishell->line + 3);
-	else if (ft_strncmp(minishell->line, ".", 1) == 0)
+	target = set_target(minishell);
+	if (!target)
 		return (0);
-	else
-		target = ft_strdup(minishell->line);
 	if (chdir(target) == -1)
 		return (get_error(minishell, NULL));
 	pwd = getcwd(NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:14:38 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 06:58:38 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <sys/time.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <dirent.h>
@@ -55,23 +55,30 @@ typedef struct s_minishell
 	t_history	*history;
 }	t_minishell;
 
-void	free_all(t_minishell *minishell);
-int		get_error(t_minishell *minishell, char *error);
-void	initialize(t_minishell *minishell, int ac, char **av, char **env);
-void	parse(t_minishell *minishell);
+void		free_all(t_minishell *minishell);
+int			get_error(t_minishell *minishell, char *error);
+void		initialize(t_minishell *minishell, int ac, char **av, char **env);
+void		parse(t_minishell *minishell);
 
 // Pipes
-int		exec_cmd(t_minishell *minishell);
+int			exec_cmd(t_minishell *minishell);
 
 // Builtins
-int		ft_cd(t_minishell *minishell);
-int		ft_echo(t_minishell *minishell, char *cmd);
-int		ft_env(t_minishell *minishell);
-int		ft_exit(t_minishell *minishell);
-int		ft_export(t_minishell *minishell, char *arg);
-int		ft_pwd(t_minishell *minishell);
-int		ft_unset(t_minishell *minishell, char *arg);
+int			ft_cd(t_minishell *minishell);
+int			ft_echo(t_minishell *minishell, char *cmd);
+int			ft_env(t_minishell *minishell);
+int			ft_exit(t_minishell *minishell);
+int			ft_export(t_minishell *minishell, char *arg);
+int			ft_pwd(t_minishell *minishell);
+int			ft_unset(t_minishell *minishell, char *arg);
 // Others
-int		ft_setcolor(t_minishell *minishell, char *color);
+int			ft_history(t_minishell *minishell);
+int			ft_setcolor(t_minishell *minishell, char *color);
+
+// Utils
+// Lists
+void		lstadd_back(t_history **lst, t_history *new);
+t_history	*lstlast(t_history *lst);
+t_history	*lstnew(char *cmd);
 
 #endif
