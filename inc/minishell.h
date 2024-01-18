@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 04:42:20 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:55:11 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <sys/time.h>
+#include <sys/stat.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <dirent.h>
 # include <errno.h>
 # include "../libft/libft.h"
 
@@ -35,7 +37,8 @@
 
 typedef struct s_history
 {
-	char	**cmds;
+	char				*cmd;
+	struct s_history	*next;
 }	t_history;
 
 typedef struct s_minishell
@@ -44,14 +47,14 @@ typedef struct s_minishell
 	int			ac;
 	int			fds[2];
 	bool		exit;
-	bool		display;
 	char		*line;
 	char		*path;
 	char		**env;
 	char		**av;
-	t_history	history;
+	t_history	*history;
 }	t_minishell;
 
+void	free_all(t_minishell *minishell);
 int		get_error(t_minishell *minishell);
 void	initialize(t_minishell *minishell, int ac, char **av, char **env);
 void	parse(t_minishell *minishell);

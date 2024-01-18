@@ -6,11 +6,24 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:08:59 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 04:42:57 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:56:41 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_cd_shortcut(char *cmd)
+{
+	struct stat path_stat;
+
+	if (stat(cmd, &path_stat) == 0) {
+		if (S_ISDIR(path_stat.st_mode))
+			return (0);
+		else
+			return (1);
+	}
+	return (1);
+}
 
 static int	builtins(t_minishell *minishell, char *cmd)
 {
@@ -19,7 +32,11 @@ static int	builtins(t_minishell *minishell, char *cmd)
 	ret = 0;
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 		ret = ft_echo(minishell, cmd);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
+	else if (ft_strncmp(cmd, "cd", 2) == 0
+		|| ft_strncmp(cmd, "..", 2) == 0
+		|| ft_strncmp(cmd, ".", 1) == 0
+		|| ft_strncmp(cmd, "~", 1) == 0
+		|| check_cd_shortcut(cmd) == 0)
 		ret = ft_cd(minishell);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		ret = ft_pwd(minishell);
@@ -45,7 +62,5 @@ void	parse(t_minishell *minishell)
 		return ;
 	minishell->ret = builtins(minishell, minishell->line);
 	if (minishell->ret == NOT_BUILTIN)
-	{
 		minishell->ret = exec_cmd(minishell);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:39:01 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 04:38:29 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:22:24 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	exec_cmd(t_minishell *minishell)
 		cmd = ft_split(minishell->line, ' ');
 		cmd_path = get_cmd_path(cmd[0], minishell->env);
 		if (execve(cmd_path, cmd, minishell->env) == -1)
-			return (get_error(minishell));
+			return (ft_freetab(cmd), free(cmd_path), get_error(minishell));
 		ft_freetab(cmd);
 		free(cmd_path);
 		exit(EXIT_SUCCESS);

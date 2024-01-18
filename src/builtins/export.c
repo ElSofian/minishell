@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:38:38 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 03:54:52 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:14:43 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	check(t_minishell *minishell, char *arg)
 		i++;
 	}
 	if (!arg[i] || arg[0] == '=' || arg[ft_strlen(arg) - 2] == '=')
-		return (get_error(minishell));
+		return (free(var_name), get_error(minishell));
 	i = 0;
 	while (minishell->env[i])
 	{
@@ -48,7 +48,7 @@ static int	check(t_minishell *minishell, char *arg)
 			ft_unset(minishell, var_name);
 		i++;
 	}
-	return (0);
+	return (free(var_name), 0);
 }
 
 static char	*ft_strdup_without_n(char *src)
@@ -56,8 +56,7 @@ static char	*ft_strdup_without_n(char *src)
 	int		i;
 	char	*str;
 
-	i = 0;
-	str = (char *)malloc(sizeof(char) * i);
+	str = (char *)malloc(sizeof(char) * ft_strlen(src) + 1);
 	if (!str)
 		return (NULL);
 	i = 0;
