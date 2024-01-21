@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 12:46:03 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:56:57 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_minishell
 	int			ac;
 	int			fds[2];
 	bool		exit;
+	bool		display_line;
 	char		*color;
 	char		*line;
 	char		*path;
@@ -84,5 +85,7 @@ void		lstdelone(t_history *lst, void (*del)(void *));
 void		lstadd_back(t_history **lst, t_history *new);
 t_history	*lstlast(t_history *lst);
 t_history	*lstnew(char *cmd);
+// Env
+char		*get_env(t_minishell *minishell, char *name);
 
 #endif
