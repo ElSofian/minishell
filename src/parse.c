@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:08:59 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 13:44:14 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:00:55 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	builtins(t_minishell *minishell, char *cmd)
 	else if (ft_strncmp(cmd, "history", 7) == 0)
 		minishell->ret = ft_history(minishell);
 	else
-		minishell->ret = NOT_BUILTIN;
+		minishell->ret = 1;
 }
 
 void	parse(t_minishell *minishell)
@@ -61,7 +61,7 @@ void	parse(t_minishell *minishell)
 		|| minishell->line[0] == '\0')
 		return ;
 	builtins(minishell, minishell->line);
-	if (minishell->ret == NOT_BUILTIN)
-		minishell->ret = exec_cmd(minishell);
+	if (minishell->ret == 1)
+		exec_cmd(minishell);
 	lstadd_back(&minishell->history, lstnew(minishell->line));
 }

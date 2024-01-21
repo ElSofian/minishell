@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:14:39 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/21 13:54:34 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:12:00 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ static void	display(t_minishell *minishell)
 		tab[0] = ft_strdup("/");
 		tab[1] = NULL;
 	}
-	if (minishell->ret == 0)
-	{
-		ft_printf(GREEN"・%s %s$> "RESET, minishell->color,
-			tab[ft_tabsize(tab) - 1]);
-	}
-	else
+	if (minishell->ret == -1)
 		ft_printf(RED"・%s %s$> "RESET, minishell->color,
+			tab[ft_tabsize(tab) - 1]);
+	else
+		ft_printf(GREEN"・%s %s$> "RESET, minishell->color,
 			tab[ft_tabsize(tab) - 1]);
 	free(pwd);
 	ft_freetab(tab);
