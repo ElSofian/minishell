@@ -6,13 +6,14 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:26:56 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:13:28 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:53:55 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check(char *cmd, int *quoted, bool *display_line)
+static int	check(char *cmd,
+			int *quoted, bool *display_line)
 {
 	int	i;
 

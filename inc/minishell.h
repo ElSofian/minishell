@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 11:12:17 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:46:03 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void		parse(t_minishell *minishell);
 
 // Pipes
 int			exec_cmd(t_minishell *minishell);
+char		**get_path_dirs(char **env);
+char		*get_cmd_path(char *cmd, char **env);
 
 // Builtins
 int			ft_cd(t_minishell *minishell);

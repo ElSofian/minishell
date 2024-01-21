@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:08:59 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:02:13 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:44:14 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	parse(t_minishell *minishell)
 	int	i;
 
 	i = 0;
-	if (minishell->line[0] == '\0')
+	if (!minishell->line || !minishell->line[0]
+		|| minishell->line[0] == '\0')
 		return ;
 	builtins(minishell, minishell->line);
 	if (minishell->ret == NOT_BUILTIN)
