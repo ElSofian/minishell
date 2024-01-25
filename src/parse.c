@@ -54,9 +54,6 @@ static void	builtins(t_minishell *minishell, char *cmd)
 
 void	parse(t_minishell *minishell)
 {
-	int	i;
-
-	i = 0;
 	if (!minishell->line || !minishell->line[0]
 		|| minishell->line[0] == '\0')
 		return ;

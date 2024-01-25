@@ -30,8 +30,8 @@
 
 void	initialize(t_minishell *minishell, int ac, char **av, char **env)
 {
-	minishell->fds[0] = 0;
-	minishell->fds[1] = 1;
+	minishell->fds[0] = dup(STDIN_FILENO);
+	minishell->fds[1] = dup(STDOUT_FILENO);
 	minishell->ret = 0;
 	minishell->ac = ac;
 	minishell->exit = false;

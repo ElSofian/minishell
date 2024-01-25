@@ -88,8 +88,6 @@ int	exec_cmd(t_minishell *minishell)
 	cmds = ft_split(minishell->line, '|');
 	if (!cmds)
 		return (get_error(minishell, NULL));
-	minishell->fds[0] = dup(STDIN_FILENO);
-	minishell->fds[1] = dup(STDOUT_FILENO);
 	dup2(minishell->fds[0], STDIN_FILENO);
 	while (i < ft_tabsize(cmds) - 1 && cmds[i])
 	{
