@@ -6,11 +6,21 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 06:07:14 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:59:34 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:10:41 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*msg_error(t_minishell *minishell)
+{
+	minishell->color = ft_strdup(BLUE);
+	return ("Wrong color provided.\n\
+There is the available colors : "RED"red"RESET", "GREEN"green"RESET", \
+"YELLOW"yellow"RESET", "BLUE"blue"RESET", "PURPLE"purple"RESET",\
+"PINK" pink"RESET", "CYAN"cyan"RESET", "WHITE"white"RESET" or reset \
+to get back to the original color.");
+}
 
 int	ft_setcolor(t_minishell *minishell, char *color)
 {
@@ -29,13 +39,11 @@ int	ft_setcolor(t_minishell *minishell, char *color)
 		minishell->color = ft_strdup(PURPLE);
 	else if (ft_strcmp(color, "pink") == 0 || ft_strcmp(color, "PINK") == 0)
 		minishell->color = ft_strdup(PINK);
+	else if (ft_strcmp(color, "cyan") == 0 || ft_strcmp(color, "CYAN") == 0)
+		minishell->color = ft_strdup(CYAN);
+	else if (ft_strcmp(color, "white") == 0 || ft_strcmp(color, "WHITE") == 0)
+		minishell->color = ft_strdup(WHITE);
 	else
-	{
-		minishell->color = ft_strdup(BLUE);
-		return (get_error(minishell, "Wrong color provided.\n\
-There is the available colors : "RED"red"RESET", "GREEN"green"RESET", \
-"YELLOW"yellow"RESET", "BLUE"blue"RESET", "PURPLE"purple"RESET",\
-"PINK" pink"RESET" or reset to get back to the original color."));
-	}
+		return (get_error(minishell, msg_error(minishell)));
 	return (0);
 }

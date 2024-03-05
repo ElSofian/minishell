@@ -6,13 +6,13 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:30:22 by soelalou          #+#    #+#             */
-/*   Updated: 2023/12/13 20:03:41 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:06:54 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-char	*init(int fd, char *buf, char *save)
+static char	*init(int fd, char *buf, char *save)
 {
 	int		readed;
 	char	*tmp;
@@ -40,7 +40,7 @@ char	*init(int fd, char *buf, char *save)
 	return (save);
 }
 
-char	*extract(char *line)
+static char	*extract(char *line)
 {
 	size_t	i;
 	char	*save;
@@ -79,21 +79,3 @@ char	*get_next_line(int fd)
 	save = extract(line);
 	return (line);
 }
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*line;
-// 
-// 	fd = open("file.txt", O_RDONLY);
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!line)
-// 			break ;
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }

@@ -26,14 +26,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
-// Compilation : gcc -Wall -Wextra -Werror ft_memset.c
-// int	main(void)
-// {
-// 	char s[100] = "aaaaa";
-// 	char s2[100] = "aaaaa";
-// 	if (!strcmp(memset(s, 'z', 3), ft_memset(s2, 'z', 3)))
-// 		printf("OK\n");
-// 	else
-// 		printf("Failed : expected '%s', got '%s'.\n", s, s2);
-// }

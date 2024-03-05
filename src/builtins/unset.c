@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:38:11 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:14:17 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:46:05 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_unset(t_minishell *minishell, char *arg)
 		return (1);
 	while (minishell->env[i])
 	{
-		if (ft_strncmp(minishell->env[i], arg, length_before_equal(arg)) == 0)
+		if (!ft_strncmp(minishell->env[i], arg, length_before_equal(arg)))
 			return (remake_env(minishell, i));
 		i++;
 	}

@@ -6,19 +6,54 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:39:01 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/21 16:12:39 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:20:21 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	run_cmd(t_minishell *minishell, char *cmd_name)
+bool	builtins(t_minishell *minishell, char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 4) == 0 && valid(cmd[4]))
+		minishell->ret = ft_echo(minishell, cmd);
+	else if (check_cd_shortcut(cmd))
+		minishell->ret = ft_cd(minishell);
+	else if (ft_strncmp(cmd, "pwd", 3) == 0 && valid(cmd[3]))
+		minishell->ret = ft_pwd(minishell);
+	else if (ft_strncmp(cmd, "export", 6) == 0 && valid(cmd[6]))
+		minishell->ret = ft_export(minishell, cmd + 7);
+	else if (ft_strncmp(cmd, "unset", 5) == 0 && valid(cmd[5]))
+		minishell->ret = ft_unset(minishell, cmd + 6);
+	else if (ft_strncmp(cmd, "env", 3) == 0 && valid(cmd[3]))
+		minishell->ret = ft_env(minishell);
+	else if (ft_strncmp(cmd, "exit", 4) == 0 && valid(cmd[4]))
+		minishell->ret = ft_exit(minishell, cmd);
+	else if (ft_strncmp(cmd, "bonjour", 7) == 0 && valid(cmd[7]))
+		minishell->ret = ft_bonjour(minishell, cmd + 8);
+	else if (ft_strncmp(cmd, "poney", 5) == 0 && valid(cmd[5]))
+		minishell->ret = ft_poney();
+	else if (ft_strncmp(cmd, "setcolor", 8) == 0 && valid(cmd[8]))
+		minishell->ret = ft_setcolor(minishell, cmd + 9);
+	else if (ft_strncmp(cmd, "history", 7) == 0 && valid(cmd[7]))
+		minishell->ret = ft_history(minishell);
+	else
+		return (false);
+	return (true);
+}
+
+int	run_cmd(t_minishell *minishell, char *cmd_name)
 {
 	char	**cmd;
 	char	*cmd_path;
 
 	cmd = ft_split(cmd_name, ' ');
 	cmd_path = get_cmd_path(cmd[0], minishell->env);
+	if (!cmd_path)
+	{
+		ft_freetab(cmd);
+		get_error(minishell, "Command not found");
+		return (-1);
+	}
 	if (execve(cmd_path, cmd, minishell->env) == -1)
 	{
 		ft_freetab(cmd);
@@ -31,73 +66,88 @@ static int	run_cmd(t_minishell *minishell, char *cmd_name)
 	return (0);
 }
 
-static int	run_single_cmd(t_minishell *minishell, char *cmd_name)
+int	run_single_cmd(t_minishell *minishell, char *cmd_name, char **cmds,
+		int *original_fd)
 {
-	int		fd[2];
-	pid_t	pid;
+	int			fds[2];
+	pid_t		pid;
 
-	if (pipe(fd) < 0)
-		return (get_error(minishell, NULL));
-	pid = fork();
-	if (pid < 0)
-		return (get_error(minishell, NULL));
-	if (pid == 0)
+	if (!builtins(minishell, cmd_name))
 	{
-		close(fd[0]);
-		close(fd[1]);
-		if (run_cmd(minishell, cmd_name) == -1)
-			return (-1);
-		exit(EXIT_SUCCESS);
+		set_g_exit(3);
+		if (pipe(fds) < 0)
+			return (close(fds[0]), close(fds[1]), get_error(minishell, NULL));
+		pid = fork();
+		if (pid < 0)
+			return (close(fds[0]), close(fds[1]), get_error(minishell, NULL));
+		if (pid == 0)
+		{
+			(close(fds[0]), close(fds[1]));
+			if (*original_fd != STDIN_FILENO)
+				close(*original_fd);
+			if (run_cmd(minishell, cmd_name) == -1)
+				(free_all(minishell), ft_freetab(cmds), exit(EXIT_FAILURE));
+			(ft_freetab(cmds), free_all(minishell), exit(EXIT_SUCCESS));
+		}
+		if (*original_fd != STDIN_FILENO)
+			close(*original_fd);
+		(close(fds[0]), close(fds[1]), wait(&pid));
 	}
-	close(fd[1]);
-	wait(&pid);
 	return (0);
 }
 
-static int	create_pipe(t_minishell *minishell, char *cmd_name)
+int	create_pipe(t_minishell *minishell, char **cmds, int i, int *original_fd)
 {
-	int		fd[2];
+	int		fds[2];
 	pid_t	pid;
 
-	if (pipe(fd) < 0)
-		return (get_error(minishell, NULL));
+	if (pipe(fds) < 0)
+		return (close(fds[0]), close(fds[1]), get_error(minishell, NULL));
 	pid = fork();
 	if (pid < 0)
-		return (get_error(minishell, NULL));
+		return (close(fds[0]), close(fds[1]), get_error(minishell, NULL));
 	if (pid == 0)
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		if (run_cmd(minishell, cmd_name) == -1)
-			return (close(fd[1]), -1);
-		close(fd[1]);
-		exit(EXIT_SUCCESS);
+		dup2(*original_fd, STDIN_FILENO);
+		if (cmds[i + 1] != NULL)
+			dup2(fds[1], STDOUT_FILENO);
+		(close(fds[0]), close(fds[1]));
+		if (*original_fd != STDIN_FILENO)
+			close(*original_fd);
+		if (run_single_cmd(minishell, cmds[i], cmds, original_fd) == -1)
+			(free_all(minishell), ft_freetab(cmds), exit(EXIT_FAILURE));
+		(ft_freetab(cmds), free_all(minishell), exit(EXIT_SUCCESS));
 	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	if (*original_fd != STDIN_FILENO)
+		close(*original_fd);
 	waitpid(pid, NULL, 0);
-	return (0);
+	*original_fd = fds[0];
+	return (close(fds[1]), 0);
 }
 
-int	exec_cmd(t_minishell *minishell)
+int	exec_cmd(t_minishell *minishell, char *line)
 {
 	int		i;
+	int		original_fd;
 	char	**cmds;
 
-	i = 0;
-	cmds = ft_split(minishell->line, '|');
+	original_fd = STDIN_FILENO;
+	i = -1;
+	if (line)
+		cmds = rmv_pipes(ft_split_quotes(line, '|'));
+	else
+		cmds = rmv_pipes(ft_split_quotes(minishell->line, '|'));
 	if (!cmds)
 		return (get_error(minishell, NULL));
-	dup2(minishell->fds[0], STDIN_FILENO);
-	while (i < ft_tabsize(cmds) - 1 && cmds[i])
+	if (ft_tabsize(cmds) == 1)
 	{
-		if (create_pipe(minishell, cmds[i]) != 0)
-			return (ft_freetab(cmds), get_error(minishell, NULL));
-		i++;
+		if (run_single_cmd(minishell, cmds[0], cmds, &original_fd) == -1)
+			return (set_g_exit(0), -1);
+		return (set_g_exit(0), ft_freetab(cmds), 0);
 	}
-	dup2(minishell->fds[1], STDOUT_FILENO);
-	if (run_single_cmd(minishell, cmds[i]) == -1)
-		return (ft_freetab(cmds), -1);
-	ft_freetab(cmds);
-	return (0);
+	while (cmds[++i])
+		if (create_pipe(minishell, cmds, i, &original_fd) == -1)
+			return (ft_freetab(cmds), -1);
+	close(original_fd);
+	return (ft_freetab(cmds), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:38:38 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 06:13:56 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:49:13 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,20 @@ static int	length_before_equal(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i] && str[i] != '=')
 		i++;
 	return (i - 1);
+}
+
+static int	replace_var(t_minishell *minishell, char **var, char *arg)
+{
+	free(*var);
+	*var = ft_strdup(arg);
+	if (!(*var))
+		return (get_error(minishell, NULL));
+	return (0);
 }
 
 static int	check(t_minishell *minishell, char *arg)
@@ -27,6 +38,8 @@ static int	check(t_minishell *minishell, char *arg)
 	int		i;
 	char	*var_name;
 
+	if (!arg[0])
+		return (ft_env(minishell), -1);
 	i = 0;
 	while (arg[i] && arg[i] != '=')
 		i++;
@@ -39,15 +52,13 @@ static int	check(t_minishell *minishell, char *arg)
 		var_name[i] = arg[i];
 		i++;
 	}
+	var_name[i] = '\0';
 	if (!arg[i] || arg[0] == '=' || arg[ft_strlen(arg) - 2] == '=')
-		return (free(var_name), get_error(minishell, NULL));
-	i = 0;
-	while (minishell->env[i])
-	{
+		return (free(var_name), -1);
+	i = -1;
+	while (minishell->env[++i])
 		if (!ft_strncmp(minishell->env[i], var_name, length_before_equal(arg)))
-			ft_unset(minishell, var_name);
-		i++;
-	}
+			return (replace_var(minishell, &minishell->env[i], arg), -1);
 	return (free(var_name), 0);
 }
 
@@ -60,7 +71,7 @@ static char	*ft_strdup_without_n(char *src)
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (src[i] && src[i] != '\n')
+	while (src[i] && src[i] != ' ' && src[i] != '\n')
 	{
 		str[i] = src[i];
 		i++;
@@ -74,7 +85,8 @@ int	ft_export(t_minishell *minishell, char *arg)
 	int		i;
 	char	**new_env;
 
-	check(minishell, arg);
+	if (check(minishell, arg) == -1)
+		return (0);
 	i = -1;
 	new_env = (char **)malloc(sizeof(char *)
 			* (ft_tabsize(minishell->env) + 2));
@@ -94,6 +106,5 @@ int	ft_export(t_minishell *minishell, char *arg)
 	minishell->env = ft_tabdup(new_env);
 	if (!minishell->env)
 		return (get_error(minishell, NULL));
-	ft_freetab(new_env);
-	return (0);
+	return (ft_freetab(new_env), 0);
 }

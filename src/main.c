@@ -6,54 +6,77 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:14:39 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/21 16:12:00 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:57:32 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	display(t_minishell *minishell)
+int	g_exit;
+
+static char	**get_prompt(t_minishell *minishell)
 {
 	char	*pwd;
+	char	**rets;
 	char	**tab;
 
+	rets = (char **)malloc(sizeof(char *) * 6);
+	if (!rets)
+		return (NULL);
+	if (minishell->ret == -1)
+		rets[0] = ft_strdup("\033[1;31m・\033[0;39m");
+	else
+		rets[0] = ft_strdup("\033[1;32m・\033[0;39m");
 	pwd = getcwd(NULL, 0);
 	tab = ft_split(pwd, '/');
 	if (!tab || !tab[0])
+		(ft_freetab(tab), tab = (char **)malloc(sizeof(char *) * 2),
+			tab[0] = ft_strdup("/"), tab[1] = NULL);
+	rets[1] = ft_strdup(minishell->color);
+	rets[2] = ft_strdup(tab[ft_tabsize(tab) - 1]);
+	rets[3] = ft_strdup("$> ");
+	rets[4] = ft_strdup(RESET);
+	rets[5] = NULL;
+	if (!rets[1] || !rets[2] || !rets[3] || !rets[4])
+		return (free(pwd), ft_freetab(rets), ft_freetab(tab), NULL);
+	return (free(pwd), ft_freetab(tab), rets);
+}
+
+void	reset_fds(t_minishell *minishell)
+{
+	if (minishell->reset_input == true)
 	{
-		ft_freetab(tab);
-		tab = NULL;
-		tab = (char **)malloc(sizeof(char *) * 2);
-		tab[0] = ft_strdup("/");
-		tab[1] = NULL;
+		dup2(minishell->original_stdin, STDIN_FILENO);
+		minishell->reset_input = false;
 	}
-	if (minishell->ret == -1)
-		ft_printf(RED"・%s %s$> "RESET, minishell->color,
-			tab[ft_tabsize(tab) - 1]);
-	else
-		ft_printf(GREEN"・%s %s$> "RESET, minishell->color,
-			tab[ft_tabsize(tab) - 1]);
-	free(pwd);
-	ft_freetab(tab);
+	if (minishell->reset_output == true)
+	{
+		dup2(minishell->original_stdout, STDOUT_FILENO);
+		minishell->reset_output = false;
+	}
 }
 
 int	main(int ac, char **av, char **env)
 {
-	int			len;
+	char		**rets;
+	char		*prompt;
 	t_minishell	minishell;
 
-	initialize(&minishell, ac, av, env);
+	init(&minishell, ac, av, env);
 	while (minishell.exit == false)
 	{
-		display(&minishell);
-		minishell.line = get_next_line(minishell.fds[1]);
-		if (minishell.line)
-		{
-			len = ft_strlen(minishell.line);
-			minishell.line[len - 1] = '\0';
-		}
+		signal(SIGINT, action);
+		rets = get_prompt(&minishell);
+		prompt = ft_tabjoin(rets, true);
+		ft_freetab(rets);
+		minishell.line = readline(prompt);
+		if (!minishell.line)
+			return (free(prompt), free_all(&minishell), exit(0), 0);
+		free(prompt);
+		add_history(minishell.line);
 		parse(&minishell);
 		free(minishell.line);
+		reset_fds(&minishell);
 	}
 	free_all(&minishell);
 	return (0);

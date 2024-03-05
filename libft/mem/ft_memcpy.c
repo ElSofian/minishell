@@ -29,16 +29,3 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
-// Compilation : gcc -Wall -Wextra -Werror ft_memcpy.c
-// int	main(void)
-// {
-// 	char s[100] = "aaaaa";
-// 	char s2[100] = "aaaaa";
-// 	strcpy(s2, s);
-// 	if (!strcmp(memcpy(s, "source", 3), ft_memcpy(s2, "source", 3))
-// 		&& !strcmp(memcpy(s, "2emesource", 8), ft_memcpy(s2, "2emesource", 8)))
-// 		printf("OK\n");
-// 	else
-// 		printf("Failed : expected '%s', got '%s'.\n", s, s2);
-// }

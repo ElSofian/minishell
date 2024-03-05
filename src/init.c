@@ -6,39 +6,30 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:03:26 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/18 11:41:55 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:57:26 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char	*get_path(t_minishell *minishell)
-// {
-// 	int		i;
-// 	char	*path;
-
-// 	i = 0;
-// 	path = NULL;
-// 	while (minishell->env[i])
-// 	{
-// 		if (ft_strncmp(minishell->env[i], "PATH=", 5) == 0)
-// 			path = ft_strdup(minishell->env[i] + 5);
-// 		i++;
-// 	}
-// 	return (path);
-// }
-
-void	initialize(t_minishell *minishell, int ac, char **av, char **env)
+void	init(t_minishell *minishell, int ac, char **av, char **env)
 {
-	minishell->fds[0] = dup(STDIN_FILENO);
-	minishell->fds[1] = dup(STDOUT_FILENO);
+	(void)ac;
+	(void)av;
+	g_exit = 0;
+	minishell->original_stdin = dup(STDIN_FILENO);
+	minishell->original_stdout = dup(STDOUT_FILENO);
 	minishell->ret = 0;
-	minishell->ac = ac;
 	minishell->exit = false;
+	minishell->reset_input = false;
+	minishell->reset_output = false;
 	minishell->line = NULL;
 	minishell->color = ft_strdup(BLUE);
-	minishell->av = ft_tabdup(av);
+	if (!minishell->color)
+		exit(EXIT_FAILURE);
 	minishell->env = ft_tabdup(env);
+	if (!minishell->env)
+		exit(EXIT_FAILURE);
 	minishell->path = getcwd(NULL, 0);
 	minishell->history = NULL;
 }

@@ -46,20 +46,3 @@ char	*ft_strnstr(const char *str, const char *tf, size_t n)
 		return (return_error(2));
 	return (NULL);
 }
-
-// Compilation : gcc -Wall -Wextra -Werror ft_strnstr.c ft_strlen.c
-// int	main(void)
-// {
-// 	char	*s1 = "";
-// 	char	*s2 = "oh no not the empty string !";
-// 	size_t	max = strlen(s2);
-
-// 	char	*i1 = strnstr(s1, s2, max);
-// 	char	*i2 = ft_strnstr(s1, s2, max);
-// 	printf("s1 = %s\ns2 = %s\nmax = %zu\n", i1, i2, max);
-// 	if (i1 == i2)
-// 		printf("OK\n");
-// 	else
-// 		printf("KO\n");
-// 	return (0);
-// }

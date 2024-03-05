@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 12:45:17 by soelalou          #+#    #+#             */
-/*   Updated: 2024/01/21 16:15:34 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:54:08 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ char	**get_path_dirs(char **env)
 	char	**dirs;
 
 	i = 0;
-	while (ft_strncmp("PATH", env[i], 4) != 0)
+	while (env[i] && ft_strncmp("PATH", env[i], 4) != 0)
 		i++;
+	if (i == ft_tabsize(env))
+		return (NULL);
 	dirs = ft_split(env[i] + 5, ':');
 	if (!dirs)
 		return (NULL);
@@ -34,7 +36,8 @@ char	*get_cmd_path(char *cmd, char **env)
 	char	**dirs;
 
 	i = -1;
-	path = NULL;
+	if (cmd[0] == '/')
+		return (ft_strdup(cmd));
 	dirs = get_path_dirs(env);
 	if (!dirs)
 		return (NULL);

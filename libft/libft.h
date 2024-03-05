@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
 # include <bsd/string.h>
@@ -49,11 +50,13 @@ int		ft_puthex_fd(unsigned int nb, char *base, int fd);
 int		ft_putnbr_fd(int n, int fd);
 int		ft_putstr_fd(char *s, int fd);
 int		ft_putunbr_fd(unsigned int nb, int fd);
+int		ft_sprintf(char *str, const char *format, ...);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_tabsize(char **tab);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+bool	is_equal(char *s1, char *s2, ...);
 char	*get_next_line(int fd);
 char	*ft_strcat(char *s1, const char *s2);
 char	*ft_strcpy(char *s1, const char *s2);
@@ -66,6 +69,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s, char const *set);
 char	*ft_itoa(int n);
+char	*ft_tabjoin(char **tab, bool without_space);
 char	**ft_tabdup(char **tab);
 char	**ft_split(char const *s, char c);
 long	ft_atol(const char *str);

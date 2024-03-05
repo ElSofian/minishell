@@ -93,7 +93,7 @@ char	**ft_split(char const *s, char c)
 		else
 		{
 			tab[k++] = put_word(s, c, &i);
-			if (!tab)
+			if (!tab[k - 1])
 			{
 				ft_freetab(tab);
 				return (NULL);
