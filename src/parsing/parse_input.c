@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: balthazar <balthazar@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:29:29 by balt              #+#    #+#             */
-/*   Updated: 2024/02/28 19:52:50 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:53:38 by balthazar        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parse_input(t_minishell *minishell)
 		return ;
 	}
 	minishell->line = rmv_double_pipes(minishell->line);
-	minishell->line = remove_redirections(minishell, minishell->line);
+	//minishell->line = remove_redirections(minishell, minishell->line, 1);
 	if (!minishell->line)
 	{
 		printf("Error: Parsing error while treating redirections\n");

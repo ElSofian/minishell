@@ -72,7 +72,7 @@ clean:
 	@echo "$(GREY)[Clean]$(END_COLOR) Objects have been deleted"
 
 fclean: clean
-	@$(RM) $(OBJS_DIR) $(NAME) input input2 output a.out assets
+	@$(RM) $(OBJS_DIR) $(NAME) input input2 output output2 count a.out assets
 	@make fclean -s -C libft
 	@echo "$(GREY)[Clean]$(END_COLOR) $(NAME) and executables have been deleted"
 

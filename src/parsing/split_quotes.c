@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: balthazar <balthazar@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:38:25 by balt              #+#    #+#             */
-/*   Updated: 2024/02/28 19:55:31 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/14 01:42:40 by balthazar        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**ft_split_quotes(char *line, char c)
 	j = 0;
 	tab = (char **) malloc((ft_countwords(line, c) + 1) * sizeof(char *));
 	if (!tab)
-		return (NULL);
+		return (free(line), NULL);
 	while (line[i])
 	{
 		i += skip_q(line, i);
@@ -90,7 +90,7 @@ char	**ft_split_quotes(char *line, char c)
 		{
 			tab[j] = ft_filltab(line, c, i);
 			if (!tab[j])
-				return (ft_free(tab, j));
+				return (free(line), ft_free(tab, j));
 			j++;
 		}
 		while (line[i] == c)

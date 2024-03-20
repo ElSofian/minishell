@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: balthazar <balthazar@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 19:45:54 by balt              #+#    #+#             */
-/*   Updated: 2024/02/12 09:07:59 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/14 01:36:26 by balthazar        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	skip_quotes(char *line, int pos)
 	int	res;
 
 	res = 0;
+	if (!line)
+		return (0);
 	if (line[pos] == '\"')
 	{
 		res++;

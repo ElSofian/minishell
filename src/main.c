@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: balthazar <balthazar@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:14:39 by soelalou          #+#    #+#             */
-/*   Updated: 2024/03/05 15:57:32 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/20 00:23:04 by balthazar        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int ac, char **av, char **env)
 	while (minishell.exit == false)
 	{
 		signal(SIGINT, action);
+		signal(SIGQUIT, SIG_IGN);
 		rets = get_prompt(&minishell);
 		prompt = ft_tabjoin(rets, true);
 		ft_freetab(rets);

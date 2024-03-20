@@ -6,7 +6,7 @@
 /*   By: soelalou <soelalou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:11:22 by soelalou          #+#    #+#             */
-/*   Updated: 2024/03/05 17:18:58 by soelalou         ###   ########.fr       */
+/*   Updated: 2024/03/20 03:25:44 by soelalou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_history
 
 typedef struct s_minishell
 {
+	int			is_init_cmds;
+	int			ex_hrd;
 	int			ret;
 	int			ac;
 	int			original_stdin;
@@ -68,6 +70,7 @@ typedef struct s_minishell
 	char		*path;
 	char		**env;
 	char		**av;
+	char		***cmds;
 	t_history	*history;
 }	t_minishell;
 
@@ -79,20 +82,26 @@ void			init(t_minishell *minishell, int ac, char **av, char **env);
 void			parse(t_minishell *minishell);
 
 // Pipes
+char			*trim_pwd(char *pwd);
 int				exec_cmd(t_minishell *minishell, char *line);
 char			**get_path_dirs(char **env);
 char			*get_cmd_path(char *cmd, char **env);
-int				here_doc(t_minishell *minishell, char *delimiter, char *cmd);
-int				exec_redirect(t_minishell *minishell, char *line, char *cmd,
+int				here_doc(t_minishell *minishell, char *delimiter);
+int				exec_redirect(t_minishell *minishell, char *line,
 					t_redirect_code code);
 bool			builtins(t_minishell *minishell, char *cmd);
 int				run_cmd(t_minishell *minishell, char *cmd_name);
 int				run_single_cmd(t_minishell *minishell, char *cmd_name,
-					char **cmds, int *original_fd);
-int				create_pipe(t_minishell *minishell, char **cmds, int i,
+					char ***cmds, int *original_fd);
+int				create_pipe(t_minishell *minishell, char ***cmds, int j, int i,
 					int *original_fd);
 char			**ft_split_quotes(char *s, char c);
 char			*ft_filltab(char *line, char c, int pos);
+char			***split_cmds(char *line);
+void			free_cmds_tab(char ***tab, char **to_add,
+					int tab_size, int add_size);
+void			*free_big_tab(char ***tab);
+void			*fbtn(char ***tab, int j, int i);
 // Redirections
 int				input(t_minishell *minishell, char *file);
 
@@ -126,6 +135,7 @@ void			set_g_exit(int value);
 bool			valid(char c);
 
 // Parsing
+char			***alloc_tab(int nb);
 int				update_pos(char *line);
 char			*cut_heredoc(char *line, int pos, char *value);
 char			*rmv_char(char *line, int pos);
@@ -146,7 +156,8 @@ char			*insert_val(t_minishell *minishell, char *line, int pos,
 					char *val_name);
 char			*line_add_val(t_minishell *minishell, char *line, int pos);
 char			*replace_vals(t_minishell *minishell, char *line);
-char			*remove_redirections(t_minishell *minishell, char *line);
+char			*remove_redirections(t_minishell *minishell, char *line,
+					int arg);
 char			*treat_redirect(t_minishell *minishell, char *line, int pos);
 char			*get_redir_value(char *line, int pos);
 int				is_token_nc(char *line, int pos, int arg);
