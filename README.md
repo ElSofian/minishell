@@ -4,7 +4,7 @@
 
 ## 📖 Description
 
-Le projet **Minishell** consiste à créer un interpréteur de commandes basique (shell) en C, en respectant les spécifications imposées par l’école 42 Paris. L’objectif est de reproduire le fonctionnement d’un shell minimaliste en implémentant :
+Le projet **Minishell** consiste à créer un interpréteur de commandes basique (shell) en C. L’objectif est de reproduire le fonctionnement d’un shell minimaliste en implémentant :
 
 - La lecture et l’analyse (parsing) de la ligne de commande
 - La gestion des redirections (`>`, `<`, `>>`, `<<`)
@@ -20,10 +20,9 @@ Ce shell ne vise pas à être complet comme Bash ou Zsh, mais à respecter préc
 
 ## 🛠️ Prérequis
 
-- Un environnement UNIX (Linux ou macOS)
-- Un compilateur C (gcc)
-- La librairie standard (`libft`) développée dans les projets 42 antérieurs (pour certaines fonctions de bas niveau, si souhaité)
-- Make (ou tout autre outil de compilation)
+- Un environnement UNIX
+- Un compilateur C (gcc, cc..)
+- Make
 
 ---
 
