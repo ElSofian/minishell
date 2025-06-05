@@ -1,6 +1,6 @@
 # Minishell – 42 Paris
 
-![minishell](https://img.shields.io/badge/42Paris-Minishell-blue)
+![C](https://img.shields.io/badge/C-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 
 ## 📖 Description
 
